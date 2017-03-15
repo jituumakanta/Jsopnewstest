@@ -7,6 +7,7 @@ import android.content.Context;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
@@ -32,9 +33,28 @@ public class MyIntentService extends IntentService {
 
         try {
             Document doc = Jsoup.connect("http://www.cricbuzz.com/cricket-news/latest-news").get();
-            Element content = doc.getElementById("content");
-            System.out.println(content);
-            System.out.println("ffff");
+           // Element content = doc.getElementById("page-wrapper");
+            Elements content = doc.getElementsByClass("cb-col cb-col-33");
+            Elements contentr = doc.getElementsByClass("cb-nws-intr");
+
+            for (Element link : content) {
+                Elements contentt =link.getElementsByTag("a");
+                Elements contenttt =link.getElementsByTag("img");
+
+
+                String linkHref = contentt.attr("href");
+                System.out.println(linkHref);
+
+                String linkHreff = contenttt.attr("src");
+                System.out.println(linkHreff);
+                String linkHreffd = contenttt.attr("title");
+                System.out.println(linkHreffd);
+
+            }
+            for(Element linkg : contentr){
+                String linkText = linkg.text();
+                System.out.println(linkText);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
